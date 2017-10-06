@@ -14,17 +14,17 @@ warning('not cleared')
 %% -------------------------Configuration-------------------------
 %general
 total_current = 1;  % total current in A
-n = 10000;  % number of particles
+n = 500;  % number of particles
 element_z = 6;  % proton number - 0 for electron -> automatically grabs mass
 charge_q = 1;  % put '-1' if using electrons!
 accel_voltage = 3.0e4;  % accelerating voltage in V
 energy_spread_rel = 0.00;  % Relative enery spread dE_1sig/E
 
 %beam
-convangle90_x = rad2deg(0.02/0.0023084507 / 8 /1000);  % x convergence angle for 90% enveloppe in deg
-convangle90_y = rad2deg(0.02/0.0023084507 / 8 /1000);  % y convergence angle for 90% enveloppe in deg
-emit90_x = 0.02/0.0023084507;  % x emittance in mm mrad (90%)
-emit90_y = 0.02/0.0023084507;  % y emittance in mm mrad (90%)
+convangle90_x = rad2deg(0.01/0.0023084507 / 4 /1000);  % x convergence angle for 90% enveloppe in deg
+convangle90_y = rad2deg(0.01/0.0023084507 / 4 /1000);  % y convergence angle for 90% enveloppe in deg
+emit90_x = 0.01/0.0023084507;  % x emittance in mm mrad (90%)
+emit90_y = 0.01/0.0023084507;  % y emittance in mm mrad (90%)
 %----
 beamsize90_x = 3.;  % only for parallel beam! (convangle90 = 0) in mm
 beamsize90_y = 3.;  % only for parallel beam! (convangle90 = 0) in mm
@@ -32,9 +32,9 @@ beamsize90_y = 3.;  % only for parallel beam! (convangle90 = 0) in mm
 %Positioning
 xwaist_z = 264;  % xwaist z coordinate in mm
 ywaist_z = 264;  % ywaist z coordinate in mm
-startpos_x = 0;  % start position x of the beam in mm
-startpos_y = 0;  % start position y of the beam in mm
-startpos_z = 0;  % start position z of the beam in mm
+startpos_x = param;  % start position x of the beam in mm
+startpos_y = 10;  % start position y of the beam in mm
+startpos_z = 100;  % start position z of the beam in mm
 
 
 
@@ -213,10 +213,10 @@ timestamp = datestr(datetime('now','TimeZone','local'), 'yyyy-mm-dd-HH-MM-SS');
 data = [xSI, ySI, zSI, pxREL, pyREL, pzREL, mSI, chargeSI, currentSI];
 % savetxt('ions-output-' + timestamp + '.pid', data, delimiter=' ', fmt='%e', header=header_string, comments='%')
 filename = ['ions-output-', timestamp, '.pid'];
-% filename = ['12C_gauss',...
+filename = ['12C1p_gauss-30keV-en0.01',...
+    '_x_',num2str(startpos_x*1000),'_y_',num2str(startpos_y*1000)...
+    , '.pid'];
 %     '_rx_',num2str(beamsize90_x*1000),'_ry_',num2str(beamsize90_y*1000)...
-%     '_x_',num2str(startpos_x*1000),'_y_',num2str(startpos_y*1000)...
-%     , '.pid'];
 warning('filename')
 dlmwrite(filename, header_string,'delimiter','');
 dlmwrite(filename, data,'-append', 'delimiter',' ','precision','%e')
